@@ -16,7 +16,7 @@ class CreateSalesGuysTable extends Migration
         Schema::create('sales_guys', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('sales_area_postal_codes');
+            $table->json('p_code');
             $table->timestamps();
         });
     }

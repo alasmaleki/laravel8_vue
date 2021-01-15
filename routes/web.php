@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Psy\Util\Json;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,16 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/t',function(){
-   $p1 = ['64765','54677','65777','65098','65776'];
-   $p2 = ['657*'];
-    dd(strpos($p2[0],'*'));
-      function validator($po1=[],$po2=[]): array
-   {
+Route::get('/t', function () {
 
-    return [integerValue($po1),integerValue($po2)];
-   }
-   validator($p1,$p2);
+    $salesGuy = \App\Http\Controllers\SalesGuyController::store(['name' => 'test',
+        'sales_area_postal_codes' => Json::encode(['pcode'=>['12345','12123']])
+    ]);
+    \App\Http\ValidatePostCodeHelper::validate($salesGuy,['66123']);
 });
 Auth::routes();
 

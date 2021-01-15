@@ -11,6 +11,6 @@ class SalesGuy extends Model
 
     protected $fillable = [
         'name',
-        'sales_area_postal_codes'
+        'p_code'
     ];
 }

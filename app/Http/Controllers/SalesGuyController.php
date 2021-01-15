@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SalesGuy;
+use App\Rules\ValidatePCode;
 use Illuminate\Http\Request;
+use Psy\Util\Json;
 
 class SalesGuyController extends Controller
 {
@@ -19,7 +21,8 @@ class SalesGuyController extends Controller
      */
     public function index()
     {
-        //
+        $salesGuy = SalesGuy::all()->toJson(JSON_PRETTY_PRINT);
+        return response($salesGuy, 200);
     }
 
     /**
@@ -29,18 +32,29 @@ class SalesGuyController extends Controller
      */
     public function create()
     {
-        //
+      //
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required',
+            'p_code'=>['required',
+                new ValidatePCode()],
+        ]);
+        $salesGuy = new SalesGuy([
+            'name' => $request->get('name'),
+            'p_code'=> Json::encode($request->get('p_code'))
+        ]);
+
+        $salesGuy->save();
+        return response()->json(['message'=>'Successfully created','data'=>$salesGuy]);
     }
 
     /**
